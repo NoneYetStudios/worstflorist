@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>The World's Worst Florist</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌺</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Awning Header -->
+  <header class="shop-header">
+    <div class="awning">
+      <div class="awning-stripes"></div>
+    </div>
+    <div class="header-bar">
+      <div class="brand" id="btn-home" title="Return to Title Screen">
+        <span class="brand-badge">🌺🔧</span>
+        <div class="brand-text">
+          <h1>The World's Worst Florist</h1>
+          <span class="brand-sub">Bespoke Arrangements &amp; Questionable Objects</span>
+        </div>
+      </div>
+
+      <div class="hud-stats">
+        <button class="hud-nametag-pill" id="btn-nametag-quick" title="Click to edit your Florist Nametag &amp; view High Scores">
+          <span class="nametag-hello">HELLO, I'M</span>
+          <span class="nametag-val" id="hud-nametag">Apprentice Florist</span>
+          <span class="nametag-edit">✏️</span>
+        </button>
+        <div class="hud-pill" title="Customers Served">
+          <span class="hud-label">SERVED</span>
+          <span class="hud-value" id="hud-served">0</span>
+        </div>
+        <div class="hud-pill" title="Current Satisfaction Streak">
+          <span class="hud-label">STREAK</span>
+          <span class="hud-value" id="hud-streak">0 🔥</span>
+        </div>
+        <div class="hud-pill" title="Best Bouquet Score">
+          <span class="hud-label">BEST</span>
+          <span class="hud-value" id="hud-best">0</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="icon-btn icon-btn-gold" id="btn-stats" aria-label="High Score Board &amp; Shop Ledger" title="High Score Board &amp; Ledger">
+          🏆 <span class="btn-label">High Scores</span>
+        </button>
+        <button class="icon-btn" id="btn-music" aria-label="Toggle Shop BGM" title="Toggle Background Music">
+          🎵 <span class="btn-label" id="label-music">Music: Off</span>
+        </button>
+        <button class="icon-btn" id="btn-sfx" aria-label="Toggle Sound Effects" title="Toggle Sound Effects">
+          🔊 <span class="btn-label" id="label-sfx">SFX: On</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Shop Floor -->
+  <main class="shop-main">
+    <!-- Left Column: Customer Counter & Request -->
+    <section class="panel customer-panel" aria-label="Customer Request">
+      <div class="customer-stage">
+        <div class="shop-window-bg">
+          <div class="cloud cloud-1"></div>
+          <div class="cloud cloud-2"></div>
+          <div class="window-frame"></div>
+        </div>
+        <div class="customer-avatar-wrap" id="customer-avatar-wrap">
+          <div class="reaction-badge hidden" id="reaction-badge">🤩 DELIGHTED!</div>
+          <div class="customer-avatar" id="customer-avatar"></div>
+        </div>
+        <div class="customer-nametag" id="customer-nametag">
+          <span class="customer-name" id="customer-name">Loading...</span>
+          <span class="customer-title" id="customer-title">Customer</span>
+        </div>
+      </div>
+
+      <div class="speech-bubble" id="speech-bubble">
+        <div class="quote-mark">“</div>
+        <p class="request-text" id="request-text">
+          Welcome to the shop! Waiting for our first customer...
+        </p>
+        <div class="vibe-Check">
+          <div class="vibe-header">
+            <span class="vibe-title">🔍 FLORIST'S INTUITION (TARGET VIBES):</span>
+            <button class="text-btn" id="btn-toggle-hints" title="Toggle Vibe Clues">Hide Clues</button>
+          </div>
+          <div class="vibe-tags" id="vibe-tags"></div>
+        </div>
+      </div>
+
+      <div class="event-ticker" id="event-ticker">
+        <span class="ticker-icon">✨</span>
+        <span class="ticker-text" id="ticker-text">Drag or click items to assemble the bouquet!</span>
+      </div>
+    </section>
+
+    <!-- Center Column: Bouquet Assembly Workbench -->
+    <section class="panel workbench-panel" aria-label="Bouquet Assembly">
+      <div class="workbench-top-bar">
+        <div class="item-counter">
+          <span id="bouquet-count">0</span> / <span id="bouquet-max">8</span> Items in Bouquet
+        </div>
+        <div class="wrapper-picker">
+          <span class="picker-label">Wrap:</span>
+          <button class="wrap-swatch active" data-wrap="kraft" title="Classic Kraft Paper" style="--swatch:#d9a066"></button>
+          <button class="wrap-swatch" data-wrap="pink" title="Velvet Romance" style="--swatch:#f472b6"></button>
+          <button class="wrap-swatch" data-wrap="hazard" title="Caution Stripes" style="--swatch:#facc15"></button>
+          <button class="wrap-swatch" data-wrap="tinfoil" title="Heavy Duty Foil" style="--swatch:#94a3b8"></button>
+          <button class="wrap-swatch" data-wrap="newspaper" title="Yesterday's Classifieds" style="--swatch:#e2e8f0"></button>
+        </div>
+      </div>
+
+      <div class="bouquet-dropzone" id="bouquet-dropzone">
+        <div class="dropzone-hint" id="dropzone-hint">
+          <div class="hint-icon">💐 + 🪚</div>
+          <p><strong>Drop Flowers &amp; Questionable Objects Here!</strong></p>
+          <span>Click or drag items from the shelves. Click any item in the bouquet to remove it.</span>
+        </div>
+
+        <!-- Bouquet Visual Container -->
+        <div class="bouquet-stage" id="bouquet-stage">
+          <!-- Back layer of paper cone -->
+          <div class="bouquet-paper-back" id="bouquet-paper-back"></div>
+          <!-- Dynamic items rendered here -->
+          <div class="bouquet-items-layer" id="bouquet-items-layer"></div>
+          <!-- Front layer of paper cone + ribbon -->
+          <div class="bouquet-paper-front" id="bouquet-paper-front">
+            <div class="bouquet-ribbon"></div>
+          </div>
+        </div>
+
+        <!-- Floating Event Toast / Particle Overlay -->
+        <div class="fx-layer" id="fx-layer"></div>
+      </div>
+
+      <!-- Current Bouquet Chips (Quick Remove / Reorder) -->
+      <div class="selected-manifest" id="selected-manifest" aria-label="Items currently in bouquet"></div>
+
+      <!-- Workbench Controls -->
+      <div class="workbench-controls">
+        <button class="btn btn-secondary" id="btn-clear" title="Remove all items">
+          🗑️ Clear
+        </button>
+        <button class="btn btn-secondary" id="btn-surprise" title="Add a random chaotic assortment">
+          🎲 Panic Grab
+        </button>
+        <button class="btn btn-primary" id="btn-submit" disabled>
+          🎁 Present Bouquet!
+        </button>
+      </div>
+    </section>
+
+    <!-- Right Column: Shop Inventory Shelves -->
+    <section class="panel inventory-panel" aria-label="Shop Inventory">
+      <div class="inventory-tabs">
+        <button class="tab-btn active" data-filter="all" id="tab-count-all">All Stock (42)</button>
+        <button class="tab-btn" data-filter="flower" id="tab-count-flower">🌸 Flowers (14)</button>
+        <button class="tab-btn" data-filter="object" id="tab-count-object">⚠️ Questionable (28)</button>
+      </div>
+
+      <div class="inventory-grid" id="inventory-grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Title Screen Modal -->
+  <div class="modal-backdrop" id="title-modal">
+    <div class="modal-card title-card">
+      <div class="title-illustration">
+        <div class="title-badge">🏆 CRITICALLY QUESTIONABLE</div>
+        <div class="title-hero-art" id="title-hero-art"></div>
+      </div>
+      <h2 class="title-heading">The World's Worst Florist</h2>
+      <p class="title-tagline">
+        When life gets weird, regular flowers just won't cut it.<br />
+        Pair fresh blooms with chainsaws, traffic cones, saxophones, cheese wheels, and garden gnomes to craft the <strong>exact emotional arrangement</strong> your customers desperately need!
+      </p>
+
+      <!-- Official Florist Nametag Registration Badge on Title Screen -->
+      <div class="florist-badge-card">
+        <div class="badge-card-top">HELLO, MY FLORIST NAMETAG IS:</div>
+        <div class="badge-card-body">
+          <input
+            type="text"
+            id="title-nametag-input"
+            class="nametag-input"
+            maxlength="22"
+            placeholder="Enter Florist Nametag..."
+            value="Apprentice Florist"
+          />
+        </div>
+        <div class="badge-card-sub">Used on the Global High Score Board</div>
+      </div>
+
+      <div class="title-features">
+        <div class="feature-pill">🗣️ <strong>240+</strong> Bizarre Situations</div>
+        <div class="feature-pill">🦩 <strong>42</strong> Ridiculous Items</div>
+        <div class="feature-pill">🏆 High Score Board</div>
+      </div>
+
+      <div class="title-actions">
+        <button class="btn btn-primary btn-large" id="btn-start-game">
+          🔔 Open the Flower Shop!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round Evaluation / Customer Reaction Modal -->
+  <div class="modal-backdrop hidden" id="result-modal">
+    <div class="modal-card result-card">
+      <div class="result-header">
+        <div class="result-rank-banner" id="result-rank-banner">EXACTLY WHAT I NEEDED!</div>
+        <div class="result-score-row">
+          <div class="result-score-circle">
+            <span class="score-num" id="result-score-num">98</span>
+            <span class="score-pts">PTS</span>
+          </div>
+          <div class="result-customer-mini">
+            <div class="mini-avatar" id="result-mini-avatar"></div>
+            <div class="mini-reaction-tag" id="result-reaction-tag">🤩 DELIGHTED</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <blockquote class="customer-verdict-quote" id="result-customer-quote">
+          “I have never felt so understood by a leaf blower and three carnations.”
+        </blockquote>
+
+        <div class="narrative-summary" id="result-narrative">
+          <!-- Procedural humorous breakdown -->
+        </div>
+
+        <div class="vibe-breakdown" id="result-vibe-breakdown">
+          <!-- Shows how well the hidden traits matched -->
+        </div>
+
+        <!-- Inline High Score Nametag Stamp after every bouquet -->
+        <div class="result-highscore-bar">
+          <span>🏷️ Recorded on High Score Board under:</span>
+          <strong id="result-nametag-display">Apprentice Florist</strong>
+          <button class="text-btn" id="btn-result-open-board">View Rankings 🏆</button>
+        </div>
+      </div>
+
+      <div class="result-footer">
+        <button class="btn btn-secondary" id="btn-admire">
+          🔍 Inspect Bouquet
+        </button>
+        <button class="btn btn-primary btn-large" id="btn-next-customer">
+          🔔 Next Customer &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- High Score Board & Shop Ledger Modal -->
+  <div class="modal-backdrop hidden" id="stats-modal">
+    <div class="modal-card stats-card">
+      <div class="modal-header">
+        <h2>🏆 Global Florist High Score Board</h2>
+        <button class="close-btn" id="btn-close-stats" aria-label="Close High Scores">&times;</button>
+      </div>
+
+      <!-- Editable Florist Nametag Banner -->
+      <div class="nametag-editor-row">
+        <div class="nametag-sticker">
+          <span class="sticker-header">OFFICIAL FLORIST NAMETAG</span>
+          <div class="sticker-input-group">
+            <input
+              type="text"
+              id="ledger-nametag-input"
+              class="nametag-input-inline"
+              maxlength="22"
+              placeholder="Your Florist Nametag"
+            />
+            <button class="btn btn-secondary btn-sm" id="btn-save-nametag">Save Nametag</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Leaderboard Table -->
+      <div class="leaderboard-wrap">
+        <table class="leaderboard-table" aria-label="Global Florist High Score Board">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Florist Nametag</th>
+              <th>Best</th>
+              <th>Avg</th>
+              <th>Runs</th>
+              <th><span>Florist</span><span>Rating</span></th>
+              <th>Signature Bouquet</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Look Up Friend by Florist Nametag -->
+      <div class="rival-share-box">
+        <div class="rival-share-row">
+          <span class="friend-lookup-label">🔍 Look Up Friend on Global Board:</span>
+          <div class="rival-import-group">
+            <input
+              type="text"
+              id="input-friend-search"
+              class="rival-code-input"
+              maxlength="22"
+              placeholder="Search by Florist Nametag (e.g. Petunia)..."
+            />
+            <button class="btn btn-secondary btn-sm" id="btn-search-friend">Look Up Friend</button>
+            <button class="btn btn-secondary btn-sm hidden" id="btn-clear-search">Show All</button>
+          </div>
+        </div>
+        <div class="rival-status-msg hidden" id="rival-status-msg"></div>
+      </div>
+
+      <!-- Personal Career Statistics Grid -->
+      <h3 class="section-subhead">📊 Your Career Florist Ledger</h3>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-num" id="stat-served">0</span>
+          <span class="stat-name">Customers Served</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-best">0</span>
+          <span class="stat-name">Best Bouquet Score</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-avg">0</span>
+          <span class="stat-name">Average Score</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-highest-avg">0</span>
+          <span class="stat-name">Highest Average</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-perfect">0</span>
+          <span class="stat-name">“Exactly What I Needed”</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-streak">0</span>
+          <span class="stat-name">Longest Streak</span>
+        </div>
+      </div>
+
+      <div class="best-bouquet-showcase" id="best-bouquet-showcase">
+        <h3>🌟 Personal Hall of Fame Arrangement</h3>
+        <p id="best-bouquet-desc">No bouquets recorded yet. Get out there and tape a toaster to a tulip!</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger-outline" id="btn-reset-stats">Reset Ledger</button>
+        <button class="btn btn-primary" id="btn-done-stats">Back to Shop</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

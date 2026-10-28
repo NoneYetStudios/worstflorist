@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Local SQLite database files (generated automatically at runtime)
+api/*.sqlite
+api/*.sqlite-journal
+api/*.sqlite-wal
+api/*.sqlite-shm
+*.db
+
+# Python cache
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

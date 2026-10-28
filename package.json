@@ -1,0 +1,15 @@
+{
+  "name": "worlds-worst-florist",
+  "version": "1.0.0",
+  "description": "The World's Worst Florist - Bespoke Arrangements & Questionable Objects",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "python": "python server.py"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
