@@ -103,4 +103,4 @@ your-site-root/
 
 ## 📜 License
 
-MIT License. Have fun arranging chainsaws and tulips!
+MIT License © 2026 Anthony Moore / None Yet Studios. Have fun arranging chainsaws and tulips!
